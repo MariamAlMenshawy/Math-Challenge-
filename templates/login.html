@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}log in{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+    <style>
+        .form-card {
+        background: #ffffff; 
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 750px; 
+        margin: 10px auto 0 ;
+    }
+    .form-card h1 {
+        color: #1e3a8a;
+        font-size: 28px;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+    form p {
+        margin-bottom: 3px;
+        display: flex;
+        flex-direction: column;
+    }
+    form label {
+        font-size: 15px;
+        margin-bottom: 5px;
+        color: #4b5563;
+        font-weight: 600;
+
+        display: block;
+        width: 80%;
+        margin: 5px auto 1px; 
+        text-align: left;
+    }
+
+    form input {
+        display: block;
+        width: 80%;
+        margin: 0px auto 5px;
+        padding: 8px 6px; 
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 14px;
+        background-color: #f9fafb;
+        transition: 0.2s;
+    }
+
+    form input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        background-color: #fff;
+    }
+    .helptext {
+        display: none; 
+    }
+    form ul {
+        display: none;
+    }
+    form ul.errorlist {
+        display: block;
+        color: #971616; 
+        list-style: none;
+        padding: 0;
+        width: 80%;
+        margin: 0 auto 5px;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: left;
+    }
+    .submit-btn {
+        width: 50%;
+        background: #24499a;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+        display: block;
+        margin: 10px auto;
+    }
+
+    .submit-btn:hover {
+        background: #4364d1;
+        transform: translateY(-2px);
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .login-link a {
+        color: #3665cb;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    </style>
+   <div class="form-card">
+    <h1>Log in</h1>
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}  
+        
+        {% if form.non_field_errors %}
+            <div class="error-container" style="color: red; text-align: center; margin-bottom: 10px;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <p>
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="errorlist">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </p>
+        {% endfor %}
+
+        <button type="submit" class="submit-btn">Log in</button>
+    </form>
+    <div class="login-link">
+        Create New Account <a href="{% url 'signup' %}">Sign Up</a>
+    </div>
+</div>
+{%endblock%}
+

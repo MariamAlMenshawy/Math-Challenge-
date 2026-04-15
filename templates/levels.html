@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Levels{% endblock %}
+
+{% block content %}
+
+<div class="levels-container">
+
+    <h1 class="levels-title">Choose Your Level</h1>
+
+    <div class="levels-grid">
+
+        <!-- LEVEL 1 -->
+        <div class="level-card easy">
+            <div class="level-badge">Easy</div>
+            <h2>Level 1</h2>
+            <p>example:  5 + 10 = 15</p>
+            <a href="#" class="level-btn easy-btn">Start</a>
+        </div>
+
+        <!-- LEVEL 2 -->
+        <div class="level-card medium">
+            <div class="level-badge">Medium</div>
+            <h2>Level 2</h2>
+            <p>example:  5 × 10 + 12 = 62</p>
+            <a href="#" class="level-btn medium-btn">Start</a>
+        </div>
+
+        <!-- LEVEL 3 -->
+        <div class="level-card hard">
+            <div class="level-badge">Hard</div>
+            <h2>Level 3</h2>
+            <p>example: 6 × 10 ÷ 15 + 30  = 34</p>
+            <a href="#" class="level-btn hard-btn">Start</a>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+/* ===== PAGE ===== */
+.levels-container{
+    width: 100%;
+    text-align: center;
+    padding-top: 0px;
+}
+
+.levels-title{
+    font-size: 2.6rem;
+    color: #1e3a8a;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+/* ===== GRID ===== */
+.levels-grid{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* ===== CARD BASE ===== */
+.level-card{
+    width: 260px;
+    padding: 30px;
+    border-radius: 22px;
+
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+
+    transition: 0.3s;
+    position: relative;
+}
+
+.level-card:hover{
+    transform: translateY(-12px);
+}
+
+/* ===== BADGE ===== */
+.level-badge{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    padding: 5px 12px;
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+/* ===== TITLES ===== */
+.level-card h2{
+    margin-top: 20px;
+    font-size: 1.6rem;
+    color: #1e3a8a;
+}
+
+.level-card p{
+    color: #4b5563;
+    margin-top: 10px;
+}
+
+/* ===== BUTTON ===== */
+.level-btn{
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 28px;
+
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+
+    transition: 0.3s;
+}
+
+/* ===== EASY ===== */
+.easy{
+    border-left: 6px solid #124e28;
+}
+.easy .level-badge{
+    background: #164d2a;
+}
+.easy-btn{
+    background: #0f5729;
+}
+.easy-btn:hover{
+    background: #16a34a;
+}
+
+/* ===== MEDIUM ===== */
+.medium{
+    border-left: 6px solid #976206;
+}
+.medium .level-badge{
+    background: #996204;
+}
+.medium-btn{
+    background: #9d6606;
+}
+.medium-btn:hover{
+    background: #d97706;
+}
+
+/* ===== HARD ===== */
+.hard{
+    border-left: 6px solid #781b1b;
+}
+.hard .level-badge{
+    background: #790c0c;
+}
+.hard-btn{
+    background: #870b0b;
+}
+.hard-btn:hover{
+    background: #c72a2a;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width: 850px){
+    .levels-title{
+        font-size: 2rem;
+    }
+
+    .levels-grid{
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+
+{% endblock %}
