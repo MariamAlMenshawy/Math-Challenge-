@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Solve Session{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+
+    <div class="card shadow-lg border-0 p-4 quiz-card">
+
+        <!-- ================= INDEX ================= -->
+        <div class="text-center mb-2">
+            <h4 class="fw-bold m-0">
+                Question {{ index|add:1 }} of 5
+            </h4>
+        </div>
+
+        <hr class="my-3">
+
+        <!-- ================= TIMER TEXT ================= -->
+        <div class="text-center mb-2 fw-semibold">
+            ⏱ <span id="timeText"></span>
+        </div>
+
+        <!-- ================= TIMER BAR ================= -->
+        <div class="timer-container mb-4">
+            <div class="timer-bar" id="timerBar"></div>
+        </div>
+
+        <!-- ================= QUESTION ================= -->
+        <div class="text-center mb-4">
+            <h3 class="question-text">
+                {{ question.equation }} =
+            </h3>
+        </div>
+
+        <!-- ================= FORM ================= -->
+        <form method="POST" class="text-center">
+            {% csrf_token %}
+
+            <input type="text" 
+                   name="user_answer" 
+                   class="form-control text-center answer-input mb-3"
+                   placeholder="Enter your answer">
+
+            <button type="submit" class="btn btn-primary w-100 submit-btn">
+                Next
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ================= STYLE ================= -->
+<style>
+
+
+/* Card */
+.quiz-card {
+    width: 100%;
+    max-width: 650px;
+    border-radius: 20px;
+}
+
+/* Question */
+.question-text {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+/* Input */
+.answer-input {
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* Button */
+.submit-btn {
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 600;
+}
+
+/* Timer container */
+.timer-container {
+    width: 100%;
+    height: 10px;
+    background: #ddd;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Timer bar */
+.timer-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #16a34a, #facc15, #ef4444);
+    transition: width 1s linear;
+}
+
+</style>
+
+<!-- ================= TIMER JS ================= -->
+<script>
+
+    let totalTime = parseInt("{{ session.time }}");
+
+    let startTime = new Date("{{ session.created_at|date:'c' }}");
+
+    let endTime = new Date(startTime.getTime() + totalTime * 1000);
+
+    let bar = document.getElementById("timerBar");
+    let timeText = document.getElementById("timeText");
+
+    function updateTimer() {
+
+        let now = new Date();
+        let timeLeft = Math.floor((endTime - now) / 1000);
+
+        if (timeLeft < 0) timeLeft = 0;
+
+        let percent = (timeLeft / totalTime) * 100;
+
+        if (percent < 0) percent = 0;
+
+        bar.style.width = percent + "%";
+
+        if (percent < 40) bar.style.background = "#facc15";
+        if (percent < 20) bar.style.background = "#ef4444";
+
+        timeText.innerText = timeLeft + " sec";
+
+        if (timeLeft <= 0) {
+            document.querySelector("form").submit();
+        }
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+</script>
+
+{% endblock %}

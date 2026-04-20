@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Result{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    <div class="result-card">
+
+        <!-- Header -->
+        <div class="result-header">
+
+            <div class="title-row">
+                <h1>Your Result</h1>
+                <div class="trophy">🏆</div>
+            </div>
+
+            <div class="score-badge">
+                <span>{{ session.user_score }}</span>
+                <span>/</span>
+                <span>{{ session.total_score }}</span>
+            </div>
+
+            {% if session.user_score == session.total_score %}
+                <p class="perfect">Perfect Score</p>
+            {% endif %}
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>Equation</th>
+                        <th>Correct Answer</th>
+                        <th>Your Answer</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in session.question_set.all %}
+                    <tr>
+                        <td>{{ question.equation }} = </td>
+                        <td>{{ question.correct_answer }}</td>
+                        <td>{{ question.user_answer|default:"--" }}</td>
+                        <td>
+                            {% if question.is_correct %} 
+                                <span class="badge success">✔</span>
+                            {% else %}
+                                <span class="badge danger">✘</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No questions found!</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Buttons -->
+        <div class="result-footer">
+            <a href="{% url 'levels' %}" class="btn main-btn">Play Again</a>
+            <a href="{% url 'home' %}" class="btn secondary-btn">Home</a>
+        </div>
+
+    </div>
+</div>
+
+<style>
+
+/* Container (نزلنا الكارت لتحت عشان navbar) */
+.result-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 120px 20px 80px; /* top padding أكبر */
+}
+
+/* Card */
+.result-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 950px;
+    border-radius: 30px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+    overflow: hidden;
+    animation: fadeIn 0.7s ease;
+}
+
+.result-header {
+    background: #2f458e;
+    color: white;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.trophy {
+    font-size: 45px;
+}
+
+.result-header h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.score-badge {
+    margin-top: 15px;
+    font-size: 32px;
+    font-weight: bold;
+    background: rgba(255,255,255,0.2);
+    padding: 12px 35px;
+    border-radius: 50px;
+    display: inline-block;
+    letter-spacing: 2px;
+}
+
+.perfect {
+    margin-top: 10px;
+    font-size: 17px;
+    color: #ffd700;
+}
+
+/* Table */
+.table-responsive {
+    padding: 25px;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+/* headers */
+.result-table th {
+    padding: 14px;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #6b7280;
+    border-bottom: 2px solid #eee;
+}
+
+/* cells (كلها أسود بدون تلوين) */
+.result-table td {
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #111;   /* أسود */
+    border-bottom: 1px solid #f3f4f6;
+}
+
+/* hover بسيط بدون تلوين */
+.result-table tr {
+    transition: 0.2s;
+}
+
+.result-table tr:hover {
+    transform: scale(1.01);
+    background: #fafafa;
+}
+
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.success {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.badge:hover {
+    transform: scale(1.2);
+}
+
+/* Buttons */
+.result-footer {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    padding: 30px;
+}
+
+/* زرار رئيسي */
+.main-btn {
+    background: linear-gradient(135deg, #24499a, #3854ae);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.main-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* زرار ثانوي */
+.secondary-btn {
+    background: #f3f4f6;
+    color: #374151;
+    padding: 12px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.secondary-btn:hover {
+    transform: translateY(-3px);
+    background: #e5e7eb;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
+
+{% endblock %}

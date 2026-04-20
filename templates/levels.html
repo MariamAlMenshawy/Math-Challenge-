@@ -10,31 +10,30 @@
     <h1 class="levels-title">Choose Your Level</h1>
 
     <div class="levels-grid">
+        <form method="post" action="{% url 'levels' %}" class="levels-form">
+            {% csrf_token %}
 
-        <!-- LEVEL 1 -->
-        <div class="level-card easy">
-            <div class="level-badge">Easy</div>
-            <h2>Level 1</h2>
-            <p>example:  5 + 10 = 15</p>
-            <a href="#" class="level-btn easy-btn">Start</a>
-        </div>
+            <div class="level-card easy">
+                <div class="level-badge">Easy</div>
+                <h2>5 Points</h2>
+                <p>example:  5 + 10 = 15</p>
+                <button type="submit" name="level" value="easy" class="level-btn easy-btn">Start</button>
+            </div>
 
-        <!-- LEVEL 2 -->
-        <div class="level-card medium">
-            <div class="level-badge">Medium</div>
-            <h2>Level 2</h2>
-            <p>example:  5 × 10 + 12 = 62</p>
-            <a href="#" class="level-btn medium-btn">Start</a>
-        </div>
+            <div class="level-card medium">
+                <div class="level-badge">Medium</div>
+                <h2>10 Points</h2>
+                <p>example: 5 × 10 + 12 = 62</p>
+                <button type="submit" name="level" value="medium" class="level-btn medium-btn">Start</button>
+            </div>
 
-        <!-- LEVEL 3 -->
-        <div class="level-card hard">
-            <div class="level-badge">Hard</div>
-            <h2>Level 3</h2>
-            <p>example: 6 × 10 ÷ 15 + 30  = 34</p>
-            <a href="#" class="level-btn hard-btn">Start</a>
-        </div>
-
+            <div class="level-card hard">
+                <div class="level-badge">Hard</div>
+                <h2>15 Points</h2>
+                <p>example: 6 × 10 ÷ 15 + 3 = 7</p>
+                <button type="submit" name="level" value="hard" class="level-btn hard-btn">Start</button>        
+            </div>
+        </form>
     </div>
 
 </div>
@@ -44,7 +43,7 @@
 .levels-container{
     width: 100%;
     text-align: center;
-    padding-top: 0px;
+    padding-top: 20px;
 }
 
 .levels-title{
@@ -64,7 +63,7 @@
 
 /* ===== CARD BASE ===== */
 .level-card{
-    width: 260px;
+    width: 280px;
     padding: 30px;
     border-radius: 22px;
 
@@ -104,7 +103,8 @@
 
 .level-card p{
     color: #4b5563;
-    margin-top: 10px;
+    margin-top: 20px;
+    font-size: 15px;
 }
 
 /* ===== BUTTON ===== */
@@ -112,7 +112,9 @@
     display: inline-block;
     margin-top: 20px;
     padding: 10px 28px;
-
+    border: none;
+    outline: none;
+    box-shadow: none;
     border-radius: 20px;
     text-decoration: none;
     font-weight: bold;
@@ -120,7 +122,12 @@
 
     transition: 0.3s;
 }
-
+.levels-form {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
 /* ===== EASY ===== */
 .easy{
     border-left: 6px solid #124e28;

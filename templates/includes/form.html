@@ -1,0 +1,31 @@
+{% load widget_tweaks %}
+
+{% if form.non_field_errors %}
+<div class="error-message">
+    {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% for field in form %}
+<div class="form-group">
+
+    {{ field.label_tag }}
+
+    {% if field.name == "profile_image" %}
+        <input type="file" name="{{ field.name }}" class="form-input">
+    {% else %}
+        {% render_field field class="form-input" %}
+    {% endif %}
+
+    {% if field.errors %}
+        <div class="error-message">
+            {% for error in field.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>
+{% endfor %}

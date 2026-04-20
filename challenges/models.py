@@ -9,9 +9,9 @@ class Session(models.Model):
         ('hard',   'Hard'),
     ]
     LEVEL_TIME = {
-        'easy':   45,
-        'medium': 75,
-        'hard':   120,
+        'easy':   50,
+        'medium': 100,
+        'hard':   180,
     }
     SESSION_SCORE = {
         'easy':   5,
@@ -37,6 +37,11 @@ class Session(models.Model):
 
     def complete_session(self):
         if not self.is_completed:
+            correct_count = self.question_set.filter(is_correct=True).count()
+            
+            score_per_question = self.total_score / 5
+            self.user_score = correct_count * score_per_question
+            
             self.is_completed = True
             self.save()
 
@@ -51,23 +56,18 @@ class Session(models.Model):
 class Question(models.Model):
     session_id = models.ForeignKey(Session, on_delete=models.CASCADE)
     equation = models.CharField(max_length=250)
-    correct_answer = models.FloatField()
-    user_answer = models.FloatField(null=True)
+    correct_answer = models.FloatField(null=True, blank=True)
+    user_answer = models.FloatField(null=True, blank=True)
     is_correct = models.BooleanField(default= False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
 
     def save(self, *args, **kwargs):
 
         if self.user_answer is not None :
             self.is_correct = round(self.correct_answer, 2) == round(self.user_answer, 2)
-
-            session = self.session_id
-            score_per_question = session.total_score / 5
-
-            if self.is_correct :
-                session.user_score += score_per_question
-                session.save()
-
 
         super().save(*args, **kwargs)
 

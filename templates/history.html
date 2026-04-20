@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}History{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    <div class="result-card">
+
+        <!-- Header -->
+        <div class="result-header">
+            <div class="title-row">
+                <h1>History</h1>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="table-responsive">
+
+            {% for session in sessions %}
+
+                <!-- Session Info -->
+                <div class="session-info">
+                    Level: {{ session.level }}
+                    <br>
+                    Score: {{ session.user_score }} / {{ session.total_score }}
+                    <br>
+                    <small> Created_at: {{ session.created_at }}</small>
+                </div>
+                <br>
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th>Equation</th>
+                            <th>Correct Answer</th>
+                            <th>Your Answer</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for question in session.question_set.all %}
+                        <tr>
+                            <td>{{ question.equation }} =</td>
+                            <td>{{ question.correct_answer }}</td>
+                            <td>{{ question.user_answer|default:"--" }}</td>
+                            <td>
+                                {% if question.is_correct %} 
+                                    <span class="badge success">✔</span>
+                                {% else %}
+                                    <span class="badge danger">✘</span>
+                                {% endif %}
+                            </td>
+                            <td><small>{{ question.created_at }}</small></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="empty">No questions found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="session-divider"></div>
+
+            {% empty %}
+                <p class="empty">No history yet</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</div>
+
+<style>
+
+/* Container */
+.result-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 120px 20px 80px;
+}
+
+/* Card */
+.result-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 950px;
+    border-radius: 30px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+    overflow: hidden;
+}
+
+/* Header */
+.result-header {
+    background: #2f458e;
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.title-row h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+/* Session info */
+.session-info {
+    margin: 0px 0 5px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2f458e;
+    line-height: 1.6;
+}
+
+/* Table */
+.table-responsive {
+    padding: 25px;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+/* header */
+.result-table th {
+    padding: 14px;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #6b7280;
+    border-bottom: 2px solid #eee;
+}
+
+/* cells */
+.result-table td {
+    padding: 16px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #111;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+/* hover */
+.result-table tr:hover {
+    background: #fafafa;
+}
+
+/* 🔥 Status badges (صغيرة) */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;   /* أصغر */
+    height: 28px;  /* أصغر */
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.success {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* spacing */
+hr {
+    margin: 35px 0;
+    border: 1px solid #eee;
+}
+
+/* empty */
+.empty {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+.session-divider {
+    margin: 25px 0;
+    height: 4px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        #132972,
+        transparent
+    );
+    opacity: 0.3;
+}
+</style>
+
+{% endblock %}
