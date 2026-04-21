@@ -62,7 +62,7 @@ def solve_session(request,session_id):
                 numbers = 4
 
             for i in range(numbers):
-                num = random.randint(1,20)
+                num = random.randint(1,10)
                 q.equation += str(num)
 
                 if i < (numbers - 1) : 
